@@ -30,9 +30,9 @@ create table modelo (
 
 create table veiculo (
     id int primary key auto_increment,
+    chassi varchar(30) not null unique,
     fk_modelo int not null,
     cor varchar(50) not null,
-    versao varchar (10) not null,
     data_fabricacao date not null,
     foreign key (fk_modelo) references modelo(id)
 );
@@ -48,7 +48,25 @@ insert into modelo (nome, data_lancamento, fk_fabricante, qtd_portas) values
 ('A3', '1996-01-01', 2, 4),
 ('R8', '2006-01-01', 2, 2);
 
-insert into veiculo (fk_modelo, cor, data_fabricacao) values
-(1, 'Vermelho', '2020-01-01'),
+insert into veiculo (fk_modelo, chassi, cor, data_fabricacao) values
+(1, 'ABC1234567890123', 'Vermelho', '2020-01-01'),
+(1, 'DEF4567890123456', 'Preto', '2020-01-02'),
+(2, 'GHI7890123456789', 'Branco', '2020-01-03'),
+(2, 'JKL0123456789012', 'Azul', '2020-01-04'),
+(3, 'MNO3456789012345', 'Verde', '2020-01-05'),
+(3, 'PQR6789012345678', 'Amarelo', '2020-01-06'),
+(4, 'STU9012345678901', 'Prata', '2020-01-07'),
+(4, 'VWX2345678901234', 'Cinza', '2020-01-08'),
+(5, 'YZA5678901234567', 'Branco', '2020-01-09'),
+(5, 'BCD890123456789A', 'Preto', '2020-01-10');
 
-10 de cada modelo
+select 
+    veiculo.id,
+    veiculo.chassi,
+    veiculo.cor,
+    veiculo.data_fabricacao,
+    modelo.nome as modelo,
+    fabricante.nome as fabricante
+from veiculo 
+join modelo on veiculo.fk_modelo = modelo.id
+join fabricante on modelo.fk_fabricante = fabricante.id;

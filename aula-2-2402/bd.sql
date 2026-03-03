@@ -70,3 +70,37 @@ select
 from veiculo 
 join modelo on veiculo.fk_modelo = modelo.id
 join fabricante on modelo.fk_fabricante = fabricante.id;
+
+alter table veiculo add column preco decimal(10,2) not null;
+
+update veiculo set preco = 49854.00 where id = 1;
+update veiculo set preco = 49854.00 where id = 2;
+update veiculo set preco = 89854.00 where id = 3;
+update veiculo set preco = 89854.00 where id = 4;
+update veiculo set preco = 189854.00 where id = 5;
+update veiculo set preco = 189854.00 where id = 6;
+update veiculo set preco = 289854.00 where id = 7;
+update veiculo set preco = 289854.00 where id = 8;
+update veiculo set preco = 389854.00 where id = 9;
+update veiculo set preco = 389854.00 where id = 10;
+
+delete from veiculo where id = 4;
+
+truncate table veiculo;
+
+--exercicios de ordenação:
+
+--1 listar todas as informações dos veiculos ordenados em ordem crescente pela data;
+--2 listar somente id do veiculo, id do fabricante, e placa do veiculo ordenando pelo id do fabricante em ordem descrecente;
+--3 listar somente nome do fabricante ordenando pelo nome em ordem descrescente;
+--4 listar todas as informações de modelo ordenando pela data de lançamento em ordem crescente;
+
+select * from veiculo order by data_fabricacao asc;
+
+select veiculo.id, modelo.fk_fabricante, veiculo.chassi from veiculo join modelo on veiculo.fk_modelo = modelo.id order by modelo.fk_fabricante desc;
+
+select nome from fabricante order by nome desc;
+
+select * from modelo order by data_lancamento asc;
+
+

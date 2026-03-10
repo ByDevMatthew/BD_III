@@ -104,3 +104,36 @@ select nome from fabricante order by nome desc;
 select * from modelo order by data_lancamento asc;
 
 
+
+select count(*) as 'Quantidade' from modelo where fk_fabricante = 1;
+
+select count(*) from modelo where nome like 'p%';
+
+select max(data_fabricacao) from veiculo;
+
+select min(data_fabricacao) from veiculo;
+
+select * from veiculo where data_fabricacao = (select min(data_fabricacao) from veiculo) and cor like 'v%';
+
+select min(preco) as 'Menor Preço', max(preco) as 'Maior Preço', avg(preco) as 'Média Preço' from veiculo where fk_fabricante = 1;
+
+select sum(preco), count(*), avg(preco) from veiculo;
+
+
+select
+modelo.nome as 'Modelo',
+modelo.data_lancamento as 'Data de Lançamento',
+fabricante.nome as 'Fabricante',
+fabricante.telefone as 'Telefone'
+from fabricante inner join modelo on modelo.fk_fabricante = fabricante.id;
+
+select
+preco as 'Preço',
+data_fabricacao 'Data de Fabricação',
+modelo.nome 'Modelo',
+data_lancamento as 'Data de Lançamento'
+from veiculo inner join modelo on veiculo.fk_modelo = modelo.id;
+
+
+drop database if exists concessionaria;
+

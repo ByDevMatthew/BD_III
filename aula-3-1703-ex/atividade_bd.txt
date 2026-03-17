@@ -1,0 +1,145 @@
+Atividade — Sistema de Rodoviária
+Contexto
+Você foi contratado para auxiliar na administração de dados de uma rodoviária. O banco de dados já foi modelado e populado com registros iniciais. Seu trabalho é escrever consultas SQL para responder às necessidades do sistema.
+
+Objetivo
+Escrever consultas SQL utilizando os recursos estudados na Aula 2: ordenação (ORDER BY), funções de agregação (COUNT, SUM, AVG, MAX, MIN) e junção de tabelas (INNER JOIN).
+
+Estrutura do Banco de Dados
+Execute os scripts abaixo para criar o banco e popular as tabelas antes de iniciar os exercícios.
+
+Criação das Tabelas
+
+
+
+CREATE DATABASE rodoviaria;
+USE rodoviaria;
+
+CREATE TABLE companhia (
+    idcompanhia   INT PRIMARY KEY AUTO_INCREMENT,
+    nome          VARCHAR(100) NOT NULL,
+    cidade_sede   VARCHAR(80)  NOT NULL,
+    telefone      VARCHAR(11),
+    email         VARCHAR(320)
+);
+
+CREATE TABLE onibus (
+    idonibus    INT PRIMARY KEY AUTO_INCREMENT,
+    placa       CHAR(7)      NOT NULL,
+    modelo      VARCHAR(50)  NOT NULL,
+    capacidade  INT          NOT NULL,
+    fkcompanhia INT          NOT NULL,
+    FOREIGN KEY (fkcompanhia) REFERENCES companhia (idcompanhia)
+);
+
+CREATE TABLE passageiro (
+    idpassageiro    INT PRIMARY KEY AUTO_INCREMENT,
+    nome            VARCHAR(100) NOT NULL,
+    cpf             CHAR(11)     NOT NULL,
+    email           VARCHAR(320),
+    data_nascimento DATE         NOT NULL
+);
+
+CREATE TABLE passagem (
+    idpassagem   INT PRIMARY KEY AUTO_INCREMENT,
+    fkpassageiro INT            NOT NULL,
+    fkonibus     INT            NOT NULL,
+    origem       VARCHAR(80)    NOT NULL,
+    destino      VARCHAR(80)    NOT NULL,
+    data_viagem  DATE           NOT NULL,
+    valor        DECIMAL(8, 2)  NOT NULL,
+    assento      INT            NOT NULL,
+    FOREIGN KEY (fkpassageiro) REFERENCES passageiro (idpassageiro),
+    FOREIGN KEY (fkonibus)     REFERENCES onibus (idonibus)
+);
+
+
+
+Inserção dos Registros
+
+
+
+-- 5 Companhias
+INSERT INTO companhia VALUES (0, 'Cometa Transportes',   'São Paulo',       '1132450000', 'contato@cometa.com.br');
+INSERT INTO companhia VALUES (0, 'Pluma Conforto',        'Curitiba',        '4133290100', 'pluma@pluma.com.br');
+INSERT INTO companhia VALUES (0, 'Itapemirim',            'Vitória',         '2732810200', 'sac@itapemirim.com.br');
+INSERT INTO companhia VALUES (0, 'Viação Garcia',         'Londrina',        '4333412200', 'garcia@garcia.com.br');
+INSERT INTO companhia VALUES (0, 'Expresso Nordeste',     'Recife',          '8132655500', 'nordeste@expresso.com.br');
+
+-- 5 Ônibus
+INSERT INTO onibus VALUES (0, 'BRT1234', 'Mercedes O-500',  46, 1);
+INSERT INTO onibus VALUES (0, 'PLM5678', 'Volvo B12R',       50, 2);
+INSERT INTO onibus VALUES (0, 'ITP9012', 'Scania K380',      44, 3);
+INSERT INTO onibus VALUES (0, 'GRC3456', 'Mercedes O-400',   42, 4);
+INSERT INTO onibus VALUES (0, 'NRD7890', 'Volvo B9R',        48, 5);
+
+-- 5 Passageiros
+INSERT INTO passageiro VALUES (0, 'Ana Paula Souza',   '12345678901', 'ana@email.com',    '1990-04-15');
+INSERT INTO passageiro VALUES (0, 'Carlos Mendes',     '23456789012', 'carlos@email.com', '1985-11-22');
+INSERT INTO passageiro VALUES (0, 'Fernanda Lima',     '34567890123', 'fern@email.com',   '2000-07-30');
+INSERT INTO passageiro VALUES (0, 'Roberto Alves',     '45678901234', 'rob@email.com',    '1978-02-10');
+INSERT INTO passageiro VALUES (0, 'Juliana Costa',     '56789012345', 'ju@email.com',     '1995-09-05');
+
+-- 5 Passagens
+INSERT INTO passagem VALUES (0, 1, 1, 'São Paulo',  'Rio de Janeiro', '2026-04-10', 89.90,  15);
+INSERT INTO passagem VALUES (0, 2, 2, 'Curitiba',   'Florianópolis',  '2026-04-11', 65.00,  22);
+INSERT INTO passagem VALUES (0, 3, 3, 'Vitória',    'Belo Horizonte', '2026-04-12', 120.50, 08);
+INSERT INTO passagem VALUES (0, 4, 4, 'Londrina',   'Maringá',        '2026-04-13', 45.00,  31);
+INSERT INTO passagem VALUES (0, 5, 5, 'Recife',     'Salvador',       '2026-04-14', 150.00, 05);
+
+
+
+
+Exercícios
+Parte 1 — Ordenação (ORDER BY)
+1. Liste todas as passagens ordenando pelo valor em ordem crescente.
+
+2. Liste todas as passagens ordenando pela data da viagem em ordem decrescente.
+
+3. Liste o nome e a data de nascimento de todos os passageiros, ordenando pelo nome em ordem alfabética.
+
+4. Liste a placa, modelo e capacidade de todos os ônibus, ordenando pela capacidade em ordem decrescente.
+
+5. Liste todas as companhias ordenando pela cidade sede em ordem alfabética.
+
+Parte 2 — Funções de Agregação
+6. Qual é o valor total arrecadado com todas as passagens vendidas?
+
+7. Qual é o valor médio das passagens?
+
+8. Qual é o maior valor cobrado em uma passagem? E o menor?
+
+9. Quantas passagens foram vendidas no total?
+
+10. Quantos ônibus pertencem à companhia de idcompanhia = 1?
+
+11. Qual é a capacidade média dos ônibus cadastrados?
+
+12. Qual é a data de nascimento do passageiro mais velho (data mais antiga)?
+
+13. Quantos passageiros possuem e-mail cadastrado (campo não nulo)?
+
+Parte 3 — INNER JOIN
+14. Liste o nome do passageiro, origem, destino e valor de cada passagem.
+
+15. Liste a placa do ônibus, o modelo e o nome da companhia à qual pertence.
+
+16. Liste o nome do passageiro, o assento, a origem e o destino de todas as passagens, ordenando pelo nome do passageiro em ordem alfabética.
+
+17. Liste o nome da companhia, a placa do ônibus, o nome do passageiro e o valor da passagem — trazendo todas as informações em uma única consulta (três tabelas).
+
+18. Mostre o nome do passageiro e o valor total gasto por ele em passagens. (Dica: use SUM com INNER JOIN e GROUP BY)
+
+Entrega
+Crie um arquivo chamado atividade1.sql com todas as suas respostas, numeradas como comentários (ex: -- 1, -- 2, etc.).
+O arquivo deve ser entregue via repositório ou conforme orientação do professor.
+Dicas e Lembretes
+Use AS para dar apelidos às colunas e deixar o resultado mais legível (ex: SUM(valor) AS 'Total').
+O INNER JOIN retorna apenas os registros que possuem correspondência nas duas tabelas.
+Para unir três tabelas, encadeie dois INNER JOIN:
+SELECT ...
+FROM tabela_a
+INNER JOIN tabela_b ON tabela_b.fk = tabela_a.id
+INNER JOIN tabela_c ON tabela_c.fk = tabela_b.id;
+Lembre-se de usar USE rodoviaria; antes de executar as consultas.
+Coloque o nome completo do aluno e a turma como comentário no topo do arquivo de entrega.

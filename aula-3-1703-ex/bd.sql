@@ -23,3 +23,9 @@ select avg(valor) as "Valor Médio das Passagens" from passagem;
 
 --8
 select max(valor) as "Maior Valor", min(valor) as "Menor Valor" from passagem;
+
+--9
+select count(*) as "Total de Passagem Vendidas" from passagem;
+
+--10
+select count(select * from companhia WHERE id = 1) from onibus;
